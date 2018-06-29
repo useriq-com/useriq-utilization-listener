@@ -1,0 +1,35 @@
+{
+  "name": "useriq-utilization-listener",
+  "version": "0.1.0",
+  "description": "Listen for system utilization, like CPU and memory, that exceeds a desired threshold.",
+  "main": "index.js",
+  "engines": {
+    "node": "8.11.2"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/useriq-com/useriq-utilization-listener.git"
+  },
+  "scripts": {
+    "dev": "nodemon --exec 'nf start'",
+    "start": "node forever",
+    "postinstall": "gulp build",
+    "test": "mocha --compilers js:babel-core/register --recursive './src/**/*.spec.js'"
+  },
+  "devDependencies": {
+    "foreman": "^2.0.0",
+    "mocha": "^3.1.1",
+    "nodemon": "^1.11.0"
+  },
+  "dependencies": {
+    "babel-core": "^6.26.0",
+    "babel-preset-env": "^1.6.1",
+    "gulp": "^3.9.1",
+    "gulp-babel": "^6.1.2",
+    "gulp-plumber": "^1.1.0",
+    "moment": "^2.17.1",
+    "systeminformation": "^3.42.0"
+  },
+  "author": "Lance Whatley",
+  "license": "LicenseRef-LICENSE"
+}
