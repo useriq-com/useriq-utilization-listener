@@ -1,6 +1,7 @@
 # ignore
 *.log
 *.DS_Store
+/node_modules
 /logs
 /index.js
 /index.spec.js
