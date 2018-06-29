@@ -5,21 +5,42 @@ const sleep = (timeoutMs=1000) => new Promise(resolve => setTimeout(resolve, tim
 
 describe('UtilizationListener', () => {
   describe('#start', () => {
-    describe('type == memory', () => {
-      it('should throw an error with no type provided', async function() {
-        try {
-          await UtilizationListener.start({ interval: 50 }, () => {})
-        } catch(err) {
-          assert.ok(err)
-        }
-      })
 
+    it('should throw an error with no type provided', async function() {
+      try {
+        await UtilizationListener().start({ interval: 50 }, () => {})
+      } catch(err) {
+        assert.ok(err)
+      }
+    })
+
+    describe("type == 'memory'", () => {
       it("should start polling for memory information and outputting it at least once if we've waited at least `interval` milliseconds", async function() {
         let thresholds = []
-        UtilizationListener.start({ type: 'memory', interval: 50, percentThreshold: 0.01 }, threshold => thresholds.push(threshold))
+        await UtilizationListener().start({ type: 'memory', interval: 50, percentThreshold: 0.01 }, function(threshold) {
+          thresholds.push(threshold)
+          assert.equal(true, threshold > 0)
 
-        await sleep(100)
-        assert.equal(true, thresholds.length > 0)
+          if (thresholds.length > 2)
+            this.end()
+        })
+
+        assert.ok("We successfully stopped the listener!")
+      })
+    })
+
+    describe("type == 'cpu'", () => {
+      it("should start polling for memory information and outputting it at least once if we've waited at least `interval` milliseconds", async function() {
+        let thresholds = []
+        await UtilizationListener().start({ type: 'cpu', interval: 50, percentThreshold: 0.01 }, function(threshold) {
+          thresholds.push(threshold)
+          assert.equal(true, threshold > 0)
+
+          if (thresholds.length > 2)
+            this.end()
+        })
+
+        assert.ok("We successfully stopped the listener!")
       })
     })
   })

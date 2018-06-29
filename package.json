@@ -1,5 +1,5 @@
 {
-  "name": "useriq-utilization-listener",
+  "name": "utilization-listener",
   "version": "0.1.0",
   "description": "Listen for system utilization, like CPU and memory, that exceeds a desired threshold.",
   "main": "index.js",
@@ -17,9 +17,7 @@
     "test": "mocha --compilers js:babel-core/register --recursive './src/**/*.spec.js'"
   },
   "devDependencies": {
-    "foreman": "^2.0.0",
-    "mocha": "^3.1.1",
-    "nodemon": "^1.11.0"
+    "mocha": "^3.1.1"
   },
   "dependencies": {
     "babel-core": "^6.26.0",

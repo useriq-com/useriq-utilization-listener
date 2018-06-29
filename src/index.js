@@ -1,43 +1,50 @@
 import systeminformation from 'systeminformation'
 
-export default {
-  async start({ type, interval, percentThreshold }, cb) {
-    interval = interval || 1000
-    percentThreshold = percentThreshold || 0.9
+export default function UtilizationListener() {
+  return {
+    async start({ type, interval, percentThreshold }, cb) {
+      interval = interval || 1000
+      percentThreshold = percentThreshold || 0.9
 
-    return new Promise(async (_, reject) => {
-      this.pollTimeout = setTimeout(async () => {
-        try {
-          let info, percentUtil
-          switch (type) {
-            case 'cpu':
-              info = await systeminformation.currentLoad()
-              percentUtil = currentload_system
-              break
-            case 'memory':
-              info = await systeminformation.mem()
-              percentUtil = (info.used / info.total) * 100
-              break
-            default:
-              this.end()
-              throw new Error(`Please provide a valid type of metric to listen for.`)
+      return new Promise((resolve, reject) => {
+        this.resolve = resolve
+
+        this.pollInterval = setInterval(async () => {
+          try {
+            let info, percentUtil
+            switch (type) {
+              case 'cpu':
+                info = await systeminformation.currentLoad()
+                percentUtil = info.currentload_system
+                break
+              case 'memory':
+                info = await systeminformation.mem()
+                percentUtil = (info.used / info.total) * 100
+                break
+              default:
+                throw new Error(`Please provide a valid type of metric to listen for.`)
+            }
+
+            if (parseFloat(percentUtil) >= parseFloat(percentThreshold))
+              await cb.call(this, percentUtil)
+
+          } catch(e) {
+            this.end(false)
+            reject(e)
           }
+        }, interval)
+      })
+    },
 
-          if (parseFloat(percentUtil) >= parseFloat(percentThreshold))
-            await cb(percentUtil)
+    end(resolved=true) {
+      if (this.pollInterval) {
+        clearInterval(this.pollInterval)
+      }
 
-          await this.start({ type, interval, percentThreshold }, cb)
-
-        } catch(e) {
-          this.end()
-          reject(e)
-        }
-      }, interval)
-    })
-  },
-
-  end() {
-    if (this.pollTimeout)
-      clearTimeout(this.pollTimeout)
+      if (resolved) {
+        this.resolve()
+        this.resolve = null
+      }
+    }
   }
 }
