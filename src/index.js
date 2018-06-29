@@ -6,7 +6,7 @@ export default function UtilizationListener() {
       interval = interval || 1000
       percentThreshold = percentThreshold || 0.9
 
-      return new Promise((resolve, reject) => {
+      return await new Promise((resolve, reject) => {
         this.resolve = resolve
 
         this.pollInterval = setInterval(async () => {

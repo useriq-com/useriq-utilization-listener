@@ -30,7 +30,7 @@ describe('UtilizationListener', () => {
     })
 
     describe("type == 'cpu'", () => {
-      it("should start polling for memory information and outputting it at least once if we've waited at least `interval` milliseconds", async function() {
+      it("should start polling for CPU information and outputting it at least once if we've waited at least `interval` milliseconds", async function() {
         let thresholds = []
         await UtilizationListener().start({ type: 'cpu', interval: 50, percentThreshold: 0.01 }, function(threshold) {
           thresholds.push(threshold)

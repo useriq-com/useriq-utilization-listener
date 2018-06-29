@@ -11,8 +11,6 @@
     "url": "https://github.com/useriq-com/useriq-utilization-listener.git"
   },
   "scripts": {
-    "dev": "nodemon --exec 'nf start'",
-    "start": "node forever",
     "postinstall": "gulp build",
     "test": "mocha --require babel-core/register --recursive './src/**/*.spec.js'"
   },
@@ -25,7 +23,6 @@
     "gulp": "^3.9.1",
     "gulp-babel": "^6.1.2",
     "gulp-plumber": "^1.1.0",
-    "moment": "^2.17.1",
     "systeminformation": "^3.42.0"
   },
   "author": "Lance Whatley",
