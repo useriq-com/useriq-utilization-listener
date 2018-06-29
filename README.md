@@ -15,14 +15,16 @@ $ npm install --save utilization-listener
 import UtilizationListener from 'utilization-listener'
 
 const utilization = UtilizationListener()
-await utilization.start({
-  type: 'memory',           // 'memory' or 'cpu'
-  interval: 50,             // milliseconds with how often to poll for new utilization
-  percentThreshold: 80      // === 80% utilization
-}, function(threshold) => { // only invoked if `threshold` is above `percentThreshold` in utilization.start() definition
-  console.log(threshold)    // ex. 98.54723
-  this.end()                // ends the listener and resolves the promise returned from utilization.start()
-})
+(async function() {
+  await utilization.start({
+    type: 'memory',           // 'memory' or 'cpu'
+    interval: 50,             // milliseconds with how often to poll for new utilization
+    percentThreshold: 80      // === 80% utilization
+  }, function(threshold) => { // only invoked if `threshold` is above `percentThreshold` in utilization.start() definition
+    console.log(threshold)    // ex. 98.54723
+    this.end()                // ends the listener and resolves the promise returned from utilization.start()
+  })
+})()
 ```
 
 ## Development
