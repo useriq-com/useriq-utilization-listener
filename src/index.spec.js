@@ -5,8 +5,7 @@ const sleep = (timeoutMs=1000) => new Promise(resolve => setTimeout(resolve, tim
 
 describe('UtilizationListener', () => {
   describe('#start', () => {
-
-    it('should throw an error with no type provided', async function() {
+    it('should throw an error with no utilization type provided', async function() {
       try {
         await UtilizationListener().start({ interval: 50 }, () => {})
       } catch(err) {
@@ -25,6 +24,12 @@ describe('UtilizationListener', () => {
             this.end()
         })
 
+        assert.ok("We successfully stopped the listener!")
+      })
+
+      it("should end polling by calling 'utilization.end()' as well as 'the.end()' with callback scope", async function() {
+        const utilization = UtilizationListener()
+        await utilization.start({ type: 'memory', interval: 50, percentThreshold: 0.01 }, () => utilization.end())
         assert.ok("We successfully stopped the listener!")
       })
     })
