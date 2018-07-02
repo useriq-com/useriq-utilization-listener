@@ -1,6 +1,6 @@
 {
   "name": "utilization-listener",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Listen for system utilization, like CPU and memory, that exceeds a desired threshold.",
   "main": "index.js",
   "engines": {
