@@ -1,8 +1,10 @@
 import systeminformation from 'systeminformation'
 
+const NOOP = () => {}
+
 export default function UtilizationListener() {
   return {
-    async start({ type, interval, percentThreshold }, cb) {
+    async start({ type, interval, percentThreshold }, cb, lowUtilCb=NOOP) {
       interval = interval || 1000
       percentThreshold = percentThreshold || 0.9
 
@@ -27,6 +29,8 @@ export default function UtilizationListener() {
 
             if (parseFloat(percentUtil) >= parseFloat(percentThreshold))
               await cb.call(this, percentUtil)
+            else
+              await lowUtilCb.call(this, percentUtil)
 
           } catch(e) {
             this.end(false)

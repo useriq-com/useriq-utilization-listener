@@ -13,6 +13,13 @@ describe('UtilizationListener', () => {
       }
     })
 
+    it('should call the lowUtilCb if threshold is below our desired threshold', async function() {
+      await UtilizationListener().start({ type: 'cpu', interval: 50, percentThreshold: 99.9999 }, () => {}, function lowUtilCb(threshold) {
+        assert.equal(true, threshold < 99.9999)
+        this.end()
+      })
+    })
+
     describe("type == 'memory'", () => {
       it("should start polling for memory information and outputting it at least once if we've waited at least `interval` milliseconds", async function() {
         let thresholds = []
